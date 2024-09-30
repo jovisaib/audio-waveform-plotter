@@ -9,7 +9,7 @@ import os
 
 app = FastAPI()
 
-def create_waveform_image(audio_samples, duration, frame_idx, fps=30, height=1080, width=1920, color=(255, 165, 0), bg_color=(0, 255, 0)):
+def create_waveform_image(audio_samples, duration, frame_idx, fps=24, height=1080, width=1920, color=(255, 165, 0), bg_color=(0, 255, 0)):
     total_frames = int(fps * duration)
     samples_per_frame = len(audio_samples) // total_frames
 
@@ -31,7 +31,7 @@ def create_waveform_image(audio_samples, duration, frame_idx, fps=30, height=108
     return image
 
 # Creates the video
-def create_waveform_video(audio_file, output_file, fps=30, resolution=(1920, 1080)):
+def create_waveform_video(audio_file, output_file, fps=24, resolution=(1920, 1080)):
     audio = AudioSegment.from_wav(audio_file)
     samples = np.array(audio.get_array_of_samples())
     duration = audio.duration_seconds
@@ -51,7 +51,7 @@ def create_waveform_video(audio_file, output_file, fps=30, resolution=(1920, 108
 @app.post("/create_waveform_video/")
 async def create_waveform_video_api(
     audio_file: UploadFile = File(...),
-    fps: int = 30,
+    fps: int = 24,
     width: int = 1920,
     height: int = 1080
 ):

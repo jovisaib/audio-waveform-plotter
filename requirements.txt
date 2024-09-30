@@ -3,4 +3,6 @@ pydub
 moviepy
 fastapi
 python-multipart
+tqdm
 uvicorn
+scipy
