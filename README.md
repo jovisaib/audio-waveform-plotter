@@ -15,3 +15,12 @@ This Python script takes a `.wav` audio file and generates a waveform video with
 Make sure you have Python 3.x installed along with the following dependencies:
 
 You will also need ffmpeg installed on your system.
+
+
+# tiktok
+curl -X POST "http://localhost:8000/create_waveform_video/" \
+     -H "accept: application/json" \
+     -F "audio_file=@input.wav" \
+     -F "width=1080" \
+     -F "height=1920" \
+     -F "fps=30"

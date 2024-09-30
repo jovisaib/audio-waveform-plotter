@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
+from starlette.background import BackgroundTask
 import numpy as np
 from pydub import AudioSegment
 from moviepy.editor import *
@@ -68,13 +69,23 @@ async def create_waveform_video_api(
         create_waveform_video(temp_input_path, temp_output_path, fps=fps, resolution=(width, height))
 
         # Return the video file
-        return FileResponse(temp_output_path, media_type="video/mp4", filename="waveform_video.mp4")
+        return FileResponse(
+            temp_output_path,
+            media_type="video/mp4",
+            filename="waveform_video.mp4",
+            background=BackgroundTask(cleanup, temp_input_path, temp_output_path)
+        )
     except Exception as e:
+        # Clean up temporary files in case of an error
+        cleanup(temp_input_path, temp_output_path)
         raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        # Clean up temporary files
-        os.unlink(temp_input_path)
-        os.unlink(temp_output_path)
+
+def cleanup(input_path: str, output_path: str):
+    for path in [input_path, output_path]:
+        try:
+            os.unlink(path)
+        except Exception:
+            pass
 
 if __name__ == "__main__":
     import uvicorn
