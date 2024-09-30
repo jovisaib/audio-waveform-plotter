@@ -1,4 +1,6 @@
+numpy
 pydub
 moviepy
-numpy
-matplotlib
+fastapi
+python-multipart
+uvicorn

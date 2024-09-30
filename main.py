@@ -2,7 +2,7 @@ import numpy as np
 from pydub import AudioSegment
 from moviepy.editor import *
 
-def create_waveform_image(audio_samples, duration, frame_idx, fps=30, height=1080, width=1920, color=(255, 255, 255), bg_color=(0, 255, 0)):
+def create_waveform_image(audio_samples, duration, frame_idx, fps=30, height=1080, width=1920, color=(255, 165, 0), bg_color=(0, 255, 0)):
     total_frames = int(fps * duration)
     samples_per_frame = len(audio_samples) // total_frames
 
